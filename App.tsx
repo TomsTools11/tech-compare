@@ -4,6 +4,7 @@ import Hero from './components/Hero';
 import ProductCard from './components/ProductCard';
 import MarketShareChart from './components/MarketShareChart';
 import ComparisonMatrix from './components/ComparisonMatrix';
+import AIChat from './components/AIChat';
 import { products } from './services/data';
 import { Category, Product } from './types';
 import { Layers, ChevronRight, BarChart3, ArrowUpRight } from 'lucide-react';
@@ -195,6 +196,13 @@ function App() {
         isOpen={isMatrixOpen} 
         onClose={() => setIsMatrixOpen(false)}
         onRemove={removeFromComparison}
+      />
+
+      {/* AI Chat Widget */}
+      <AIChat 
+        activeCategory={activeCategory} 
+        selectedProducts={comparisonList} 
+        allProducts={filteredProducts} 
       />
     </div>
   );
