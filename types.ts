@@ -1,21 +1,21 @@
+
 export type Category = 
-  | 'Lead Generation' 
-  | 'CRM' 
-  | 'Marketing Automation' 
-  | 'Lead Enrichment' 
-  | 'Sales Enablement';
+  | 'Artificial Intelligence' 
+  | 'Design' 
+  | 'Productivity' 
+  | 'Finance' 
+  | 'Sales & Marketing'
+  | 'Automation';
 
 export interface Product {
   id: string;
   name: string;
   website: string;
-  employees: string;
-  revenue: string;
-  coreOffering: string;
-  marketShare: number; // Percentage
   category: Category;
   description: string;
   logoInitial: string;
+  screenshot?: string;
+  featured?: boolean;
 }
 
 export interface ComparisonContextType {

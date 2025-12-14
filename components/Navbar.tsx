@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Shield, Menu, X, Search } from 'lucide-react';
+import { Layers, Menu, X } from 'lucide-react';
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -10,18 +10,18 @@ const Navbar: React.FC = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex-shrink-0 flex items-center space-x-2 cursor-pointer" onClick={() => window.scrollTo(0,0)}>
-            <Shield className="h-8 w-8 text-brand-bright" />
-            <span className="font-bold text-xl tracking-tight">InsurTech Compare</span>
+            <Layers className="h-8 w-8 text-brand-bright" />
+            <span className="font-bold text-xl tracking-tight">Software Compare</span>
           </div>
 
           {/* Desktop Nav */}
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-8">
-              <a href="#" className="hover:text-brand-bright transition-colors px-3 py-2 rounded-md text-sm font-medium">Categories</a>
+              <a href="#" className="hover:text-brand-bright transition-colors px-3 py-2 rounded-md text-sm font-medium">Directory</a>
+              <a href="#" className="hover:text-brand-bright transition-colors px-3 py-2 rounded-md text-sm font-medium">Trending</a>
               <a href="#" className="hover:text-brand-bright transition-colors px-3 py-2 rounded-md text-sm font-medium">Reviews</a>
-              <a href="#" className="hover:text-brand-bright transition-colors px-3 py-2 rounded-md text-sm font-medium">Research</a>
               <button className="bg-brand-bright hover:bg-brand-primary text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200 shadow-lg shadow-brand-bright/20">
-                Get Listed
+                Submit Tool
               </button>
             </div>
           </div>
@@ -42,9 +42,9 @@ const Navbar: React.FC = () => {
       {isOpen && (
         <div className="md:hidden bg-brand-dark border-t border-white/10">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            <a href="#" className="block px-3 py-2 rounded-md text-base font-medium hover:bg-brand-primary">Categories</a>
+            <a href="#" className="block px-3 py-2 rounded-md text-base font-medium hover:bg-brand-primary">Directory</a>
+            <a href="#" className="block px-3 py-2 rounded-md text-base font-medium hover:bg-brand-primary">Trending</a>
             <a href="#" className="block px-3 py-2 rounded-md text-base font-medium hover:bg-brand-primary">Reviews</a>
-            <a href="#" className="block px-3 py-2 rounded-md text-base font-medium hover:bg-brand-primary">Research</a>
           </div>
         </div>
       )}

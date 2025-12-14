@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import ProductCard from './components/ProductCard';
-import MarketShareChart from './components/MarketShareChart';
+import CategoryDistributionChart from './components/MarketShareChart';
 import ComparisonMatrix from './components/ComparisonMatrix';
 import AIChat from './components/AIChat';
 import { products } from './services/data';
@@ -10,15 +10,16 @@ import { Category, Product } from './types';
 import { Layers, ChevronRight, BarChart3, ArrowUpRight } from 'lucide-react';
 
 const categories: Category[] = [
-  'Lead Generation',
-  'CRM',
-  'Marketing Automation',
-  'Lead Enrichment',
-  'Sales Enablement'
+  'Artificial Intelligence',
+  'Design',
+  'Productivity',
+  'Finance',
+  'Sales & Marketing',
+  'Automation'
 ];
 
 function App() {
-  const [activeCategory, setActiveCategory] = useState<Category>('Lead Generation');
+  const [activeCategory, setActiveCategory] = useState<Category>('Artificial Intelligence');
   const [selectedProductIds, setSelectedProductIds] = useState<Set<string>>(new Set());
   const [isMatrixOpen, setIsMatrixOpen] = useState(false);
 
@@ -90,7 +91,7 @@ function App() {
               <div>
                 <h2 className="text-2xl font-bold text-brand-dark">{activeCategory} Tools</h2>
                 <p className="text-brand-primary text-sm mt-1">
-                  Showing {filteredProducts.length} results sorted by market presence
+                  Showing {filteredProducts.length} results
                 </p>
               </div>
             </div>
@@ -105,6 +106,12 @@ function App() {
                 />
               ))}
             </div>
+            
+            {filteredProducts.length === 0 && (
+                <div className="text-center py-20 bg-white rounded-xl border border-dashed border-gray-300">
+                    <p className="text-gray-500">No tools found in this category yet.</p>
+                </div>
+            )}
           </div>
 
           {/* Sidebar / Stats */}
@@ -113,30 +120,30 @@ function App() {
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
               <div className="flex items-center space-x-2 mb-4 text-brand-dark">
                 <BarChart3 className="w-5 h-5 text-brand-bright" />
-                <h3 className="font-bold text-lg">Category Insight</h3>
+                <h3 className="font-bold text-lg">Category Overview</h3>
               </div>
               <p className="text-sm text-gray-600 mb-6 leading-relaxed">
-                The <span className="font-semibold text-brand-primary">{activeCategory}</span> landscape is competitive. 
-                Below is the estimated market share breakdown based on premium value and user base.
+                The <span className="font-semibold text-brand-primary">{activeCategory}</span> landscape is rapidly evolving. 
+                Explore the distribution of tools in our directory.
               </p>
-              <MarketShareChart data={filteredProducts} />
+              <CategoryDistributionChart data={products} />
             </div>
 
             {/* Quick Tips */}
             <div className="bg-brand-pale/30 rounded-xl border border-brand-pale p-6">
-                <h3 className="font-bold text-brand-dark mb-3">Buyer's Guide</h3>
+                <h3 className="font-bold text-brand-dark mb-3">Comparison Tips</h3>
                 <ul className="space-y-3">
                     <li className="flex items-start text-sm text-brand-primary">
                         <ChevronRight className="w-4 h-4 mt-0.5 mr-2 text-brand-bright flex-shrink-0" />
-                        Consider integration depth with your existing AMS.
+                        Check integration compatibility with your current stack.
                     </li>
                     <li className="flex items-start text-sm text-brand-primary">
                         <ChevronRight className="w-4 h-4 mt-0.5 mr-2 text-brand-bright flex-shrink-0" />
-                        Verify compliance standards (HIPAA, SOC2) for this category.
+                        Look for AI features that automate repetitive tasks.
                     </li>
                     <li className="flex items-start text-sm text-brand-primary">
                         <ChevronRight className="w-4 h-4 mt-0.5 mr-2 text-brand-bright flex-shrink-0" />
-                        Look for volume-based pricing if scaling rapidly.
+                        Prioritize tools with good documentation and support.
                     </li>
                 </ul>
             </div>
@@ -150,12 +157,12 @@ function App() {
         <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
             <div className="mb-4 md:mb-0">
                 <span className="font-bold text-xl tracking-tight flex items-center gap-2">
-                    <Layers className="text-brand-bright" /> InsurTech Compare
+                    <Layers className="text-brand-bright" /> Software Compare
                 </span>
-                <p className="text-sm text-brand-pale mt-2">Empowering agents with data-driven decisions.</p>
+                <p className="text-sm text-brand-pale mt-2">Empowering teams with data-driven software decisions.</p>
             </div>
             <div className="text-sm text-brand-pale/60">
-                &copy; 2025 SkillsMP Design Implementation. All rights reserved.
+                &copy; 2025 Software Compare. All rights reserved.
             </div>
         </div>
       </footer>
@@ -169,7 +176,7 @@ function App() {
                 {selectedProductIds.size}
               </div>
               <span className="text-brand-dark font-medium hidden sm:inline">
-                Products selected for comparison
+                Tools selected for comparison
               </span>
             </div>
             <div className="flex space-x-3">

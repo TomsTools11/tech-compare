@@ -1,6 +1,6 @@
 import React from 'react';
 import { Product } from '../types';
-import { X, Check } from 'lucide-react';
+import { X, ExternalLink } from 'lucide-react';
 
 interface ComparisonMatrixProps {
   products: Product[];
@@ -27,7 +27,7 @@ const ComparisonMatrix: React.FC<ComparisonMatrixProps> = ({ products, isOpen, o
               <span className="bg-brand-bright text-white text-xs px-2 py-1 rounded mr-3">
                 {products.length} Selected
               </span>
-              Compare Products
+              Compare Software
             </h2>
             <button onClick={onClose} className="text-gray-400 hover:text-white transition-colors">
               <X className="w-6 h-6" />
@@ -57,8 +57,8 @@ const ComparisonMatrix: React.FC<ComparisonMatrixProps> = ({ products, isOpen, o
                             <div className="flex justify-between items-start">
                               <div>
                                 <div className="text-lg font-bold text-brand-dark">{product.name}</div>
-                                <a href={`https://${product.website}`} target="_blank" rel="noreferrer" className="text-brand-bright text-xs hover:underline">
-                                  {product.website}
+                                <a href={product.website} target="_blank" rel="noreferrer" className="text-brand-bright text-xs hover:underline flex items-center">
+                                  Visit Site <ExternalLink className="w-3 h-3 ml-1"/>
                                 </a>
                               </div>
                               <button 
@@ -86,67 +86,30 @@ const ComparisonMatrix: React.FC<ComparisonMatrixProps> = ({ products, isOpen, o
                         ))}
                       </tr>
 
-                      {/* Row: Market Share */}
+                      {/* Row: Screenshot Preview */}
                       <tr className="bg-slate-50/50">
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-brand-primary sticky left-0 bg-slate-50 border-r">
-                          Market Share
-                        </td>
-                        {products.map(product => (
-                          <td key={product.id} className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                            <div className="flex items-center">
-                                <div className="w-full bg-gray-200 rounded-full h-2.5 mr-2 max-w-[100px]">
-                                    <div className="bg-brand-bright h-2.5 rounded-full" style={{ width: `${product.marketShare}%` }}></div>
-                                </div>
-                                <span className="font-bold">{product.marketShare}%</span>
-                            </div>
-                          </td>
-                        ))}
-                      </tr>
-
-                       {/* Row: Employees */}
-                       <tr>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-brand-primary sticky left-0 bg-white border-r">
-                          Employees
-                        </td>
-                        {products.map(product => (
-                          <td key={product.id} className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                            {product.employees}
-                          </td>
-                        ))}
-                      </tr>
-
-                      {/* Row: Revenue */}
-                      <tr className="bg-slate-50/50">
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-brand-primary sticky left-0 bg-slate-50 border-r">
-                          Est. Revenue
-                        </td>
-                        {products.map(product => (
-                          <td key={product.id} className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                            {product.revenue}
-                          </td>
-                        ))}
-                      </tr>
-
-                      {/* Row: Core Product */}
-                      <tr>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-brand-primary sticky left-0 bg-white border-r">
-                          Core Offering
+                          Preview
                         </td>
                         {products.map(product => (
                           <td key={product.id} className="px-6 py-4 text-sm text-gray-700">
-                            {product.coreOffering}
+                            {product.screenshot ? (
+                                <img src={product.screenshot} alt="Preview" className="h-20 w-auto rounded border border-gray-200" />
+                            ) : (
+                                <span className="text-gray-400 text-xs">No preview</span>
+                            )}
                           </td>
                         ))}
                       </tr>
 
                        {/* Row: Description */}
-                       <tr className="bg-slate-50/50">
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-brand-primary sticky left-0 bg-slate-50 border-r">
-                          Summary
+                       <tr>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-brand-primary sticky left-0 bg-white border-r">
+                          Description
                         </td>
                         {products.map(product => (
-                          <td key={product.id} className="px-6 py-4 text-sm text-gray-600 italic">
-                            "{product.description}"
+                          <td key={product.id} className="px-6 py-4 text-sm text-gray-600 leading-relaxed">
+                            {product.description}
                           </td>
                         ))}
                       </tr>

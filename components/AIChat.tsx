@@ -18,7 +18,7 @@ const AIChat: React.FC<AIChatProps> = ({ activeCategory, selectedProducts, allPr
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState<Message[]>([
-    { role: 'model', text: `Hi! I'm your InsurTech Consultant. I can help you compare ${activeCategory} tools or suggest the best fit for your needs.` }
+    { role: 'model', text: `Hi! I'm your Software Consultant. I can help you find the best ${activeCategory} tools for your workflow.` }
   ]);
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -33,7 +33,7 @@ const AIChat: React.FC<AIChatProps> = ({ activeCategory, selectedProducts, allPr
   // Update intro context when category changes if chat hasn't started deeply
   useEffect(() => {
     if (messages.length <= 1) {
-        setMessages([{ role: 'model', text: `Hi! I'm your InsurTech Consultant. I can help you compare ${activeCategory} tools or suggest the best fit for your needs.` }]);
+        setMessages([{ role: 'model', text: `Hi! I'm your Software Consultant. I can help you find the best ${activeCategory} tools for your workflow.` }]);
     }
   }, [activeCategory]);
 
@@ -55,15 +55,13 @@ const AIChat: React.FC<AIChatProps> = ({ activeCategory, selectedProducts, allPr
         category: activeCategory,
         selectedProducts: selectedProducts.map(p => ({ 
             name: p.name, 
-            core: p.coreOffering, 
-            share: p.marketShare,
             desc: p.description,
-            employees: p.employees
+            website: p.website
         })),
-        availableTopProducts: categoryProducts.slice(0, 8).map(p => p.name),
+        availableTopProducts: categoryProducts.slice(0, 10).map(p => p.name),
       };
 
-      const systemPrompt = `You are an expert Insurance Software Consultant using the 'gemini-2.5-flash' model for fast responses.
+      const systemPrompt = `You are an expert Software Consultant using the 'gemini-2.5-flash' model.
       
       Current User Context:
       - Category Viewing: ${activeCategory}
@@ -71,9 +69,9 @@ const AIChat: React.FC<AIChatProps> = ({ activeCategory, selectedProducts, allPr
       - Context Data: ${JSON.stringify(contextData)}
 
       Instructions:
-      - Provide concise, professional advice suitable for insurance agents or carriers.
-      - If products are selected, compare them based on the data provided (market share, size, focus).
-      - If asking for a recommendation, suggest from the available top products in the category.
+      - Provide concise, professional advice suitable for business owners, developers, or marketers.
+      - If products are selected, compare them based on their description and general knowledge of the software.
+      - If asking for a recommendation, suggest from the available top products in the category or well-known alternatives.
       - Keep responses under 150 words.
       `;
 
@@ -119,7 +117,7 @@ const AIChat: React.FC<AIChatProps> = ({ activeCategory, selectedProducts, allPr
                 <MessageSquare className="w-5 h-5 text-brand-sky" />
               </div>
               <div>
-                <h3 className="font-bold text-sm tracking-wide">InsurTech Advisor</h3>
+                <h3 className="font-bold text-sm tracking-wide">Software Advisor</h3>
                 <div className="flex items-center space-x-1">
                     <span className="w-1.5 h-1.5 rounded-full bg-green-400"></span>
                     <p className="text-[10px] text-brand-pale opacity-90 uppercase tracking-wider">Online • Gemini 2.5</p>

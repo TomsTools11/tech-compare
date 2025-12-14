@@ -1,6 +1,6 @@
 import React from 'react';
 import { Product } from '../types';
-import { Building2, Globe, Users, DollarSign, CheckCircle2, Circle } from 'lucide-react';
+import { Globe, CheckCircle2, Circle, Star, ExternalLink } from 'lucide-react';
 
 interface ProductCardProps {
   product: Product;
@@ -13,14 +13,21 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, isSelected, onToggle
     <div 
       className={`
         relative group flex flex-col bg-white rounded-xl overflow-hidden transition-all duration-300
-        border hover:shadow-[0_4px_12px_rgba(0,0,0,0.15)] hover:-translate-y-1
+        border hover:shadow-[0_4px_12px_rgba(0,0,0,0.15)] hover:-translate-y-1 h-full
         ${isSelected ? 'ring-2 ring-brand-bright border-transparent' : 'border-gray-200'}
       `}
     >
+      {/* Featured Badge */}
+      {product.featured && (
+        <div className="absolute top-4 left-0 z-20 bg-brand-bright text-white text-[10px] font-bold px-2 py-1 rounded-r shadow-md flex items-center">
+            <Star className="w-3 h-3 mr-1 fill-white" /> Featured
+        </div>
+      )}
+
       {/* Selection Overlay/Button */}
       <button 
         onClick={() => onToggle(product)}
-        className="absolute top-4 right-4 z-10 p-1 rounded-full transition-colors"
+        className="absolute top-4 right-4 z-20 p-1 rounded-full transition-colors bg-white/80 backdrop-blur-sm"
       >
         {isSelected ? (
           <CheckCircle2 className="w-6 h-6 text-brand-bright fill-brand-pale" />
@@ -29,64 +36,55 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, isSelected, onToggle
         )}
       </button>
 
-      {/* Card Header */}
-      <div className="p-6 pb-4">
-        <div className="flex items-center space-x-4 mb-4">
-          <div className="w-12 h-12 rounded-lg bg-brand-pale flex items-center justify-center text-brand-primary font-bold text-xl">
-            {product.logoInitial}
-          </div>
-          <div>
-            <h4 className="text-brand-dark font-bold text-lg leading-tight">{product.name}</h4>
-            <a 
-              href={`https://${product.website}`} 
-              target="_blank" 
-              rel="noreferrer"
-              className="text-xs text-brand-bright hover:underline flex items-center mt-1"
-            >
-              <Globe className="w-3 h-3 mr-1" />
-              {product.website}
-            </a>
-          </div>
-        </div>
+      {/* Image / Header */}
+      <div className="aspect-video w-full bg-slate-100 relative overflow-hidden">
+        {product.screenshot ? (
+            <img 
+                src={product.screenshot} 
+                alt={product.name} 
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                onError={(e) => {
+                    // Fallback if image fails
+                    (e.target as HTMLImageElement).style.display = 'none';
+                    (e.target as HTMLImageElement).nextElementSibling?.classList.remove('hidden');
+                }}
+            />
+        ) : null}
         
-        <p className="text-brand-primary text-sm line-clamp-2 h-10 mb-4 opacity-80">
+        {/* Fallback pattern if no image or image error */}
+        <div className={`absolute inset-0 bg-brand-pale/20 flex items-center justify-center ${product.screenshot ? 'hidden' : ''}`}>
+            <span className="text-4xl font-bold text-brand-primary/20">{product.logoInitial}</span>
+        </div>
+
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60"></div>
+        
+        <div className="absolute bottom-4 left-4 right-4 text-white">
+            <h4 className="font-bold text-lg leading-tight shadow-sm">{product.name}</h4>
+            <div className="text-xs text-white/90 flex items-center mt-1">
+                <span className="bg-white/20 backdrop-blur-sm px-2 py-0.5 rounded text-[10px] uppercase tracking-wide">
+                    {product.category}
+                </span>
+            </div>
+        </div>
+      </div>
+
+      {/* Card Body */}
+      <div className="p-5 flex-1 flex flex-col">
+        <p className="text-gray-600 text-sm line-clamp-3 mb-4 leading-relaxed flex-1">
           {product.description}
         </p>
 
-        {/* Key Metrics Grid */}
-        <div className="grid grid-cols-2 gap-3 mb-4">
-            <div className="bg-slate-50 p-2 rounded-lg">
-                <div className="flex items-center text-xs text-gray-500 mb-1">
-                    <Users className="w-3 h-3 mr-1" /> Employees
-                </div>
-                <div className="font-semibold text-brand-dark text-sm">{product.employees}</div>
-            </div>
-            <div className="bg-slate-50 p-2 rounded-lg">
-                <div className="flex items-center text-xs text-gray-500 mb-1">
-                    <DollarSign className="w-3 h-3 mr-1" /> Revenue
-                </div>
-                <div className="font-semibold text-brand-dark text-sm">{product.revenue}</div>
-            </div>
-        </div>
-      </div>
-
-      {/* Footer / Core Offering */}
-      <div className="mt-auto bg-brand-pale/30 p-4 border-t border-brand-pale">
-        <div className="text-xs font-semibold text-brand-primary uppercase tracking-wider mb-1">
-          Core Offering
-        </div>
-        <div className="text-sm text-brand-dark font-medium">
-          {product.coreOffering}
-        </div>
-      </div>
-
-      {/* Market Share Indicator */}
-      <div className="absolute bottom-4 right-4">
-        <div 
-          className="w-10 h-10 rounded-full border-2 border-brand-bright flex items-center justify-center text-[10px] font-bold text-brand-primary bg-white shadow-sm"
-          title="Market Share"
-        >
-          {product.marketShare}%
+        <div className="mt-auto pt-4 border-t border-gray-100 flex justify-between items-center">
+             <a 
+              href={product.website} 
+              target="_blank" 
+              rel="noreferrer"
+              className="text-xs font-medium text-brand-primary hover:text-brand-bright flex items-center transition-colors"
+            >
+              <Globe className="w-3 h-3 mr-1" />
+              Visit Website <ExternalLink className="w-3 h-3 ml-1" />
+            </a>
         </div>
       </div>
     </div>
